@@ -11,6 +11,8 @@ export class HltbSearch {
   public static SEARCH_URL: string = `${HltbSearch.BASE_URL}api/search/`;
   public static IMAGE_URL: string = `${HltbSearch.BASE_URL}games/`;
 
+  private searchKey: string;
+
   private static readonly SEARCH_KEY_PATTERN =
     /"\/api\/search\/".concat\("([a-zA-Z0-9]+)"\)/g;
 
@@ -79,8 +81,11 @@ export class HltbSearch {
     let search = { ...this.payload };
     search.searchTerms = query;
     try {
-      const searchKey = await this.getSearchKey();
-      const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
+      if (!this.searchKey) {
+        this.searchKey = await this.getSearchKey();
+      }
+
+      const searchUrlWithKey = HltbSearch.SEARCH_URL + this.searchKey;
 
       let result = await axios.post(searchUrlWithKey, search, {
         headers: {

@@ -83,8 +83,10 @@ class HltbSearch {
             let search = Object.assign({}, this.payload);
             search.searchTerms = query;
             try {
-                const searchKey = yield this.getSearchKey();
-                const searchUrlWithKey = HltbSearch.SEARCH_URL + searchKey;
+                if (!this.searchKey) {
+                    this.searchKey = yield this.getSearchKey();
+                }
+                const searchUrlWithKey = HltbSearch.SEARCH_URL + this.searchKey;
                 let result = yield axios.post(searchUrlWithKey, search, {
                     headers: {
                         "User-Agent": new UserAgent().toString(),

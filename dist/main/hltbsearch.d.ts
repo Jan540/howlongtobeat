@@ -6,6 +6,7 @@ export declare class HltbSearch {
     static DETAIL_URL: string;
     static SEARCH_URL: string;
     static IMAGE_URL: string;
+    private searchKey;
     private static readonly SEARCH_KEY_PATTERN;
     payload: any;
     detailHtml(gameId: string, signal?: AbortSignal): Promise<string>;
